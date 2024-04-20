@@ -3,8 +3,10 @@ import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class GradeDisplay extends JFrame {
+    Student currentStudent = new Student();
 
     public GradeDisplay(){
         setTitle("Grade Calculator - Broward County Public Schools");
@@ -60,6 +62,22 @@ public class GradeDisplay extends JFrame {
         gradeDropdown.setSelectedIndex(0);
         JButton submitInfo = new JButton("Add");
         submitInfo.setPreferredSize(new Dimension(50,30));
+        submitInfo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int termNum = Integer.parseInt(Objects.requireNonNull(termDropdown.getSelectedItem()).toString());
+                String name = courseName.getText();
+                int idNum = Integer.parseInt(courseID.getText());
+                String type = Objects.requireNonNull(courseTypeDropdown.getSelectedItem()).toString();
+                double attemptNum = Double.parseDouble(Objects.requireNonNull(creditAttemptedDropdown.getSelectedItem()).toString());
+                double earnedNum = Double.parseDouble(Objects.requireNonNull(creditEarnedDropdown.getSelectedItem()).toString());
+                String grade = Objects.requireNonNull(gradeDropdown.getSelectedItem()).toString();
+
+                currentStudent.addCredit(name,idNum,termNum,type,grade,attemptNum,earnedNum);
+
+                //updateList();
+            }
+        });
 
         addInfo.add(termDropdown);
         addInfo.add(courseName);
@@ -105,12 +123,18 @@ public class GradeDisplay extends JFrame {
         bottomBar.add(valueWeightedGPA);
 
         setVisible(true);
+
     }
 
     public static void main(String args []){
         new GradeDisplay();
     }
+
+    private void updateList(){
+
+    }
 }
+
 
 class MenuBar extends JMenuBar{
     JMenu fileMenu = new JMenu("File");
