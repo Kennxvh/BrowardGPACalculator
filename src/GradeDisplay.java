@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.util.Objects;
 
 public class GradeDisplay extends JFrame {
+    JLabel valueUnweightedGPA = new JLabel("0.00");
+    JLabel valueWeightedGPA = new JLabel("0.00");
     Student currentStudent = new Student();
 
     DefaultTableModel tableModel = new DefaultTableModel(){
@@ -92,6 +94,7 @@ public class GradeDisplay extends JFrame {
                 currentStudent.addCredit(name,idNum,termNum,type,grade,attemptNum,earnedNum);
 
                 updateList();
+                updateGPA();
             }
         });
 
@@ -120,9 +123,9 @@ public class GradeDisplay extends JFrame {
 
         JPanel bottomBar = new JPanel();
         JLabel textUnweightedGPA = new JLabel("<html><b>Unweighted: </b>");
-        JLabel valueUnweightedGPA = new JLabel("0.00");
+
         JLabel textWeightedGPA = new JLabel("<html><b>Weighted: </b>");
-        JLabel valueWeightedGPA = new JLabel("0.00");
+
         JSeparator divider = new JSeparator();
         bottomBar.setBorder(new BevelBorder(BevelBorder.LOWERED));
         add(bottomBar, BorderLayout.SOUTH);
@@ -153,6 +156,11 @@ public class GradeDisplay extends JFrame {
                 currentStudent.getCreditEarned(rowNum),
                 currentStudent.getGrade(rowNum)};
         tableModel.addRow(newData);
+    }
+
+    private void updateGPA(){
+        valueUnweightedGPA.setText(String.valueOf(currentStudent.getUnweightedGPA()));
+        valueWeightedGPA.setText(String.valueOf(currentStudent.getWeightedGPA()));
     }
 
     public static void main(String args []){
