@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,6 +8,21 @@ import java.util.Objects;
 
 public class GradeDisplay extends JFrame {
     Student currentStudent = new Student();
+
+    DefaultTableModel tableModel = new DefaultTableModel(){
+        final String[] columnHeaders = {"Term", "Course Name", "Course ID", "Course Designation", "Credit Attempted", "Credit Earned", "Grade"};
+        @Override
+        public int getColumnCount(){
+            return columnHeaders.length;
+        }
+
+        @Override
+        public String getColumnName(int index) {
+            return columnHeaders[index];
+        }
+    };
+
+    JTable infoTable = new JTable(tableModel);
 
     public GradeDisplay(){
         setTitle("Grade Calculator - Broward County Public Schools");
@@ -75,7 +91,7 @@ public class GradeDisplay extends JFrame {
 
                 currentStudent.addCredit(name,idNum,termNum,type,grade,attemptNum,earnedNum);
 
-                //updateList();
+                updateList();
             }
         });
 
@@ -91,15 +107,16 @@ public class GradeDisplay extends JFrame {
 
         JPanel scrollPanel = new JPanel();
         scrollPanel.setPreferredSize(new Dimension(1100,500));
-        String columnHeaders[] = {"Term", "Course Name", "Course ID", "Course Designation", "Credit Attempted", "Credit Earned", "Grade"};
-        String testData[][] = {{"1","AICE MARINE SCI 1 AS", "20025150", "AICE", "0.5", "0.5", "A"}, {"2","AICE MARINE SCI 1 AS", "20025150", "AICE", "0.5", "0.5", "A"}};
-        JTable infoTable = new JTable(testData,columnHeaders);
+
+
+        //String testData[][] = {{"1","AICE MARINE SCI 1 AS", "20025150", "AICE", "0.5", "0.5", "A"}, {"2","AICE MARINE SCI 1 AS", "20025150", "AICE", "0.5", "0.5", "A"}};
         infoTable.setPreferredSize(new Dimension(1040,460));
         infoTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         JScrollPane infoScrollPane = new JScrollPane(infoTable);
         infoScrollPane.setPreferredSize(new Dimension(1060,460));
         scrollPanel.add(infoScrollPane);
         add(scrollPanel);
+
 
         JPanel bottomBar = new JPanel();
         JLabel textUnweightedGPA = new JLabel("<html><b>Unweighted: </b>");
@@ -126,12 +143,20 @@ public class GradeDisplay extends JFrame {
 
     }
 
-    public static void main(String args []){
-        new GradeDisplay();
+    private void updateList() {
+        int rowNum = infoTable.getRowCount();
+        Object[] newData = {currentStudent.getTermNumber(rowNum),
+                currentStudent.getCourseName(rowNum),
+                currentStudent.getCourseID(rowNum),
+                currentStudent.getCourseType(rowNum),
+                currentStudent.getCreditAttempted(rowNum),
+                currentStudent.getCreditEarned(rowNum),
+                currentStudent.getGrade(rowNum)};
+        tableModel.addRow(newData);
     }
 
-    private void updateList(){
-
+    public static void main(String args []){
+        new GradeDisplay();
     }
 }
 
