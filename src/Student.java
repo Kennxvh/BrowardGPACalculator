@@ -1,4 +1,3 @@
-import java.sql.Array;
 import java.util.ArrayList;
 
 public class Student {
@@ -24,6 +23,34 @@ public class Student {
     Student(double unweightedGPA, double weightedGPA){
         this.unweightedGPA = unweightedGPA;
         this.weightedGPA = weightedGPA;
+    }
+
+    public int getTermNumber(int index){
+        return(termNumber.get(index));
+    }
+
+    public String getCourseName(int index){
+        return(courseList.get(index));
+    }
+
+    public int getCourseID(int index){
+        return(courseIDList.get(index));
+    }
+
+    public String getCourseType(int index){
+        return(courseType.get(index));
+    }
+
+    public double getCreditAttempted(int index){
+        return(courseCreditsAttempted.get(index));
+    }
+
+    public double getCreditEarned(int index){
+        return(courseCreditsEarned.get(index));
+    }
+
+    public String getGrade(int index){
+        return(gradeList.get(index));
     }
 
     public double getWeightedGPA(){
